@@ -1,62 +1,37 @@
-📌 Project Overview
+# Movie Ticket Booking System — C++ source
 
-The Movie Ticket Booking System is a modular, console-based C++ application designed for managing movie shows, seat reservations, payments, ticket generation, and booking cancellation for a single cinema. The project follows Object-Oriented Programming (OOP), SOLID principles, clean coding practices, and modular system design.
+## Build
+```
+cd src
+g++ -std=c++17 -Wall -Wextra -o ../cinema main.cpp
+```
+No header files are used (course rule) — every class's declaration and
+implementation live together in its own `.cpp`, and `main.cpp` `#include`s
+them in dependency order, so the whole program compiles as a single
+translation unit.
 
-🎯 Purpose
+## Run
+```
+cd ..
+./cinema            # interactive console menu
+./cinema --demo     # scripted run that exercises F1-F8 and all 4 edge cases
+                     # with no keyboard input (see demo_run_output.txt for
+                     # a saved transcript of exactly this run)
+```
 
-The main purpose of this project is to demonstrate how a real-world movie booking system can be designed using well-structured classes and relationships. It handles the complete booking flow—from selecting a movie and show to choosing seats, making payment, generating a ticket, and cancelling a booking.
+## Layout
+- `src/` — one `.cpp` per class (18 files), see the assignment report for
+  what each one is responsible for.
+- `demo_run_output.txt` — full output of `./cinema --demo`, reproduced in
+  the report's Step G.
+- `diagram_sources/` — the Graphviz (`class_diagram.dot`) and
+  matplotlib (`sequence_diagram.py`) sources used to render Figures 1 and 2
+  in the report, plus the original Mermaid class-diagram source
+  (`class_diagram.mmd` — kept for reference; the .dot version is what was
+  actually rendered, since Mermaid CLI's headless Chrome wasn't available
+  in the build environment).
 
-✨ Features
-🎥 List Movies — Displays currently playing movies with title, language, and duration.
-🕐 Show Management — Displays available shows, screen numbers, and show timings.
-💺 Seat Layout — Shows seat number, seat type, and availability.
-🎟️ Seat Booking — Allows customers to book one or multiple available seats.
-💰 Automatic Pricing
-Silver — ₹150
-Gold — ₹250
-Platinum — ₹400
-💳 Multiple Payment Methods — UPI, Card, and Cash.
-🎫 Ticket Generation — Generates a ticket containing booking and payment details.
-❌ Booking Cancellation — Cancels bookings using the booking ID and releases seats.
-🛡️ Input Validation — Handles invalid menu choices, seat numbers, show IDs, and booking IDs without crashing.
-🔄 Failed Payment Handling — Automatically releases reserved seats if payment fails.
-🧩 SOLID Design — Implements all five SOLID principles.
-🛠️ Technologies Used
-Language: C++
-Standard: C++17
-Programming Paradigm: Object-Oriented Programming
-Concepts: Encapsulation, Abstraction, Inheritance, Polymorphism
-Design Principles: SOLID & Clean Code
-UML: Class Diagram & Sequence Diagram
-Build Tool: g++
-Data Structures: STL vector and object-based relationships
-Testing: AddressSanitizer (ASan) and UndefinedBehaviorSanitizer (UBSan)
-Documentation: Markdown / UML / Graphviz diagrams
-📂 Project Structure
-Movie-Ticket-Booking-System/
-│
-├── code/
-│   └── src/
-│       ├── Common.cpp
-│       ├── Movie.cpp
-│       ├── Seat.cpp
-│       ├── Screen.cpp
-│       ├── Cinema.cpp
-│       ├── ShowSeat.cpp
-│       ├── Show.cpp
-│       ├── Customer.cpp
-│       ├── Payment.cpp
-│       ├── UpiPayment.cpp
-│       ├── CardPayment.cpp
-│       ├── CashPayment.cpp
-│       ├── Booking.cpp
-│       ├── PriceCalculator.cpp
-│       ├── TicketPrinter.cpp
-│       ├── BookingService.cpp
-│       ├── CinemaMenu.cpp
-│       └── main.cpp
-│
-├── diagrams/
-│   └── class_diagram.dot
-│
-└── README.md
+## Verified
+- Compiles with zero warnings under `-Wall -Wextra`.
+- Re-compiled and re-run under `-fsanitize=address,undefined`: zero leaks,
+  zero errors.

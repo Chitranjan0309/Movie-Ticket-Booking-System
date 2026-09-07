@@ -1,0 +1,91 @@
+
+#####################################################
+# F1: List all movies currently playing
+#####################################################
+
+----- Movies now playing -----
+  Kaithi 2 (Tamil, 148 min)
+  Interstellar (English, 169 min)
+
+#####################################################
+# F2: List shows for "Kaithi 2"
+#####################################################
+
+----- Shows for "Kaithi 2" -----
+  [1] Screen 1 at 18:30
+  [2] Screen 2 at 21:45
+
+#####################################################
+# F3: Seat layout before any booking
+#####################################################
+
+Seat layout for "Kaithi 2" | Screen 1 | 18:30
+  A1 [SILVER] : AVAILABLE
+  A2 [SILVER] : AVAILABLE
+  B1 [GOLD] : AVAILABLE
+  B2 [GOLD] : AVAILABLE
+  C1 [PLATINUM] : AVAILABLE
+
+#####################################################
+# F4 + F5: Book seats A1, B1 (SILVER + GOLD) and price them
+#####################################################
+Booking 1001 is PENDING. Total = Rs. 400 (expected 150 + 250 = 400)
+
+#####################################################
+# Edge case 1: booking an already-BOOKED seat is rejected
+#####################################################
+Rejected as expected: Seat A1 is already booked
+
+#####################################################
+# Edge case 4: booking an invalid seat number is rejected
+#####################################################
+Rejected as expected: Invalid seat number: Z9
+
+#####################################################
+# F6: Failed payment must NOT confirm the booking
+#####################################################
+
+Payment failed. Booking 1001 was NOT confirmed; seats are available again.
+Payment succeeded? no | Booking status is now CANCELLED
+
+#####################################################
+# Edge case 2 verified: seats released after failed payment
+#####################################################
+
+Seat layout for "Kaithi 2" | Screen 1 | 18:30
+  A1 [SILVER] : AVAILABLE
+  A2 [SILVER] : AVAILABLE
+  B1 [GOLD] : AVAILABLE
+  B2 [GOLD] : AVAILABLE
+  C1 [PLATINUM] : AVAILABLE
+
+#####################################################
+# F4+F5+F6+F7: Book again and pay successfully by UPI
+#####################################################
+
+================ TICKET ================
+Booking Id : 1002
+Movie      : Kaithi 2
+Screen     : 1
+Time       : 18:30
+Seats      : A1, B1, C1
+Amount     : Rs. 800.00
+==========================================
+Payment succeeded? yes
+
+#####################################################
+# F8: Cancel booking 1002
+#####################################################
+
+Booking 1002 cancelled. Seats are AVAILABLE again.
+
+#####################################################
+# Edge case 3 verified: cancelled booking's seats are AVAILABLE again
+#####################################################
+
+Seat layout for "Kaithi 2" | Screen 1 | 18:30
+  A1 [SILVER] : AVAILABLE
+  A2 [SILVER] : AVAILABLE
+  B1 [GOLD] : AVAILABLE
+  B2 [GOLD] : AVAILABLE
+  C1 [PLATINUM] : AVAILABLE

@@ -1,0 +1,209 @@
+digraph ClassDiagram {
+  graph [rankdir=TB, splines=ortho, nodesep=0.6, ranksep=0.9, fontname="Helvetica", bgcolor="white"];
+  node [shape=plain, fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica", fontsize=9];
+
+  Movie [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>Movie</b></font></td></tr>
+    <tr><td align="left">- title : string</td></tr>
+    <tr><td align="left">- language : string</td></tr>
+    <tr><td align="left">- durationMinutes : int</td></tr>
+    <hr/>
+    <tr><td align="left">+ Movie(title, language, duration)</td></tr>
+    <tr><td align="left">+ getTitle() : string</td></tr>
+    <tr><td align="left">+ getLanguage() : string</td></tr>
+    <tr><td align="left">+ getDurationMinutes() : int</td></tr>
+  </table>>];
+
+  Seat [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>Seat</b></font></td></tr>
+    <tr><td align="left">- seatNumber : string</td></tr>
+    <tr><td align="left">- type : SeatType</td></tr>
+    <hr/>
+    <tr><td align="left">+ Seat(seatNumber, type)</td></tr>
+    <tr><td align="left">+ getSeatNumber() : string</td></tr>
+    <tr><td align="left">+ getType() : SeatType</td></tr>
+    <tr><td align="left">+ getPrice() : double</td></tr>
+  </table>>];
+
+  Screen [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>Screen</b></font></td></tr>
+    <tr><td align="left">- screenNumber : int</td></tr>
+    <tr><td align="left">- seats : vector&lt;Seat*&gt;</td></tr>
+    <hr/>
+    <tr><td align="left">+ Screen(screenNumber)</td></tr>
+    <tr><td align="left">+ addSeat(Seat*) : void</td></tr>
+    <tr><td align="left">+ getSeats() : vector&lt;Seat*&gt;</td></tr>
+    <tr><td align="left">+ getScreenNumber() : int</td></tr>
+  </table>>];
+
+  Cinema [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>Cinema</b></font></td></tr>
+    <tr><td align="left">- name : string</td></tr>
+    <tr><td align="left">- screens : vector&lt;Screen*&gt;</td></tr>
+    <hr/>
+    <tr><td align="left">+ Cinema(name)</td></tr>
+    <tr><td align="left">+ addScreen(Screen*) : void</td></tr>
+    <tr><td align="left">+ getScreens() : vector&lt;Screen*&gt;</td></tr>
+  </table>>];
+
+  Show [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>Show</b></font></td></tr>
+    <tr><td align="left">- showId : int</td></tr>
+    <tr><td align="left">- movie : Movie*</td></tr>
+    <tr><td align="left">- screen : Screen*</td></tr>
+    <tr><td align="left">- startTime : string</td></tr>
+    <tr><td align="left">- showSeats : vector&lt;ShowSeat*&gt;</td></tr>
+    <hr/>
+    <tr><td align="left">+ Show(id, movie, screen, time)</td></tr>
+    <tr><td align="left">+ getMovie() : Movie*</td></tr>
+    <tr><td align="left">+ getScreen() : Screen*</td></tr>
+    <tr><td align="left">+ getShowSeats() : vector&lt;ShowSeat*&gt;</td></tr>
+    <tr><td align="left">+ printSeatLayout() : void</td></tr>
+  </table>>];
+
+  ShowSeat [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>ShowSeat</b></font></td></tr>
+    <tr><td align="left">- seat : Seat*</td></tr>
+    <tr><td align="left">- status : SeatStatus</td></tr>
+    <hr/>
+    <tr><td align="left">+ ShowSeat(seat)</td></tr>
+    <tr><td align="left">+ isAvailable() : bool</td></tr>
+    <tr><td align="left">+ book() : void</td></tr>
+    <tr><td align="left">+ release() : void</td></tr>
+    <tr><td align="left">+ getSeat() : Seat*</td></tr>
+  </table>>];
+
+  Customer [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>Customer</b></font></td></tr>
+    <tr><td align="left">- name : string</td></tr>
+    <tr><td align="left">- phone : string</td></tr>
+    <hr/>
+    <tr><td align="left">+ Customer(name, phone)</td></tr>
+    <tr><td align="left">+ getName() : string</td></tr>
+    <tr><td align="left">+ getPhone() : string</td></tr>
+  </table>>];
+
+  Booking [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>Booking</b></font></td></tr>
+    <tr><td align="left">- bookingId : int</td></tr>
+    <tr><td align="left">- show : Show*</td></tr>
+    <tr><td align="left">- customer : Customer*</td></tr>
+    <tr><td align="left">- bookedSeats : vector&lt;ShowSeat*&gt;</td></tr>
+    <tr><td align="left">- totalAmount : double</td></tr>
+    <tr><td align="left">- status : BookingStatus</td></tr>
+    <tr><td align="left">- nextBookingId : static int</td></tr>
+    <hr/>
+    <tr><td align="left">+ Booking(show, cust, seats, amt)</td></tr>
+    <tr><td align="left">+ confirm() : void</td></tr>
+    <tr><td align="left">+ cancel() : void</td></tr>
+    <tr><td align="left">+ getBookingId() : int</td></tr>
+    <tr><td align="left">+ getTotalAmount() : double</td></tr>
+    <tr><td align="left">+ getStatus() : BookingStatus</td></tr>
+  </table>>];
+
+  Payment [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#7f2d2d"><font color="white"><b>&#171;abstract&#187; Payment</b></font></td></tr>
+    <tr><td align="left"># amount : double</td></tr>
+    <hr/>
+    <tr><td align="left">+ pay(double amount) : bool = 0</td></tr>
+  </table>>];
+
+  UpiPayment [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>UpiPayment</b></font></td></tr>
+    <tr><td align="left">- upiId : string</td></tr>
+    <hr/>
+    <tr><td align="left">+ pay(double amount) : bool</td></tr>
+  </table>>];
+
+  CardPayment [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>CardPayment</b></font></td></tr>
+    <tr><td align="left">- cardNumber : string</td></tr>
+    <hr/>
+    <tr><td align="left">+ pay(double amount) : bool</td></tr>
+  </table>>];
+
+  CashPayment [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>CashPayment</b></font></td></tr>
+    <tr><td align="left">(no extra fields)</td></tr>
+    <hr/>
+    <tr><td align="left">+ pay(double amount) : bool</td></tr>
+  </table>>];
+
+  PriceCalculator [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>PriceCalculator</b></font></td></tr>
+    <tr><td align="left">(stateless)</td></tr>
+    <hr/>
+    <tr><td align="left">+ calculateTotal(seats) : double  «static»</td></tr>
+  </table>>];
+
+  TicketPrinter [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>TicketPrinter</b></font></td></tr>
+    <tr><td align="left">(stateless)</td></tr>
+    <hr/>
+    <tr><td align="left">+ printTicket(Booking*) : void  «static»</td></tr>
+  </table>>];
+
+  BookingService [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>BookingService</b></font></td></tr>
+    <tr><td align="left">- cinema : Cinema*</td></tr>
+    <tr><td align="left">- bookings : vector&lt;Booking*&gt;</td></tr>
+    <hr/>
+    <tr><td align="left">+ BookingService(cinema)</td></tr>
+    <tr><td align="left">+ listMovies() : void</td></tr>
+    <tr><td align="left">+ listShows(Movie*) : void</td></tr>
+    <tr><td align="left">+ showSeatLayout(Show*) : void</td></tr>
+    <tr><td align="left">+ bookSeats(show,cust,seatNums) : Booking*</td></tr>
+    <tr><td align="left">+ makePayment(Booking*,Payment&amp;) : bool</td></tr>
+    <tr><td align="left">+ cancelBooking(Booking*) : void</td></tr>
+  </table>>];
+
+  CinemaMenu [label=<
+  <table border="1" cellborder="0" cellspacing="0" cellpadding="4">
+    <tr><td bgcolor="#2c3e50"><font color="white"><b>CinemaMenu</b></font></td></tr>
+    <tr><td align="left">- service : BookingService*</td></tr>
+    <hr/>
+    <tr><td align="left">+ run() : void</td></tr>
+  </table>>];
+
+  /* ---- Relationships ---- */
+  Cinema -> Screen [arrowtail=diamond, dir=back, taillabel="1", headlabel="1..*", label="composition", style=solid];
+  Screen -> Seat [arrowtail=diamond, dir=back, taillabel="1", headlabel="1..*", label="composition", style=solid];
+  Show -> Movie [arrowtail=odiamond, dir=back, taillabel="1", headlabel="1", label="aggregation", style=solid];
+  Show -> Screen [arrowtail=odiamond, dir=back, taillabel="1", headlabel="1", label="aggregation", style=solid];
+  Show -> ShowSeat [arrowtail=diamond, dir=back, taillabel="1", headlabel="1..*", label="composition", style=solid];
+  ShowSeat -> Seat [arrowhead=vee, taillabel="1", headlabel="1", label="association", style=solid];
+  Booking -> Customer [arrowhead=vee, taillabel="1..*", headlabel="1", label="association", style=solid];
+  Booking -> ShowSeat [arrowtail=odiamond, dir=back, taillabel="1", headlabel="1..*", label="aggregation", style=solid];
+  Booking -> Payment [arrowtail=diamond, dir=back, taillabel="1", headlabel="0..1", label="composition", style=solid];
+  Payment -> UpiPayment [dir=back, arrowtail=empty, style=solid];
+  Payment -> CardPayment [dir=back, arrowtail=empty, style=solid];
+  Payment -> CashPayment [dir=back, arrowtail=empty, style=solid];
+  BookingService -> Booking [arrowtail=odiamond, dir=back, taillabel="1", headlabel="0..*", label="aggregation", style=solid];
+  BookingService -> Cinema [arrowhead=vee, taillabel="1", headlabel="1", label="association", style=solid];
+  CinemaMenu -> BookingService [arrowhead=vee, taillabel="1", headlabel="1", label="association", style=solid];
+  BookingService -> PriceCalculator [style=dashed, arrowhead=vee, label="uses"];
+  BookingService -> TicketPrinter [style=dashed, arrowhead=vee, label="uses"];
+
+  { rank=same; Cinema; }
+  { rank=same; Screen; }
+  { rank=same; Show; Customer; }
+  { rank=same; ShowSeat; Booking; }
+  { rank=same; Payment; }
+  { rank=same; UpiPayment; CardPayment; CashPayment; }
+}

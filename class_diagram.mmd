@@ -1,0 +1,146 @@
+classDiagram
+    class Movie {
+        -string title
+        -string language
+        -int durationMinutes
+        +Movie(title, language, durationMinutes)
+        +getTitle() string
+        +getLanguage() string
+        +getDurationMinutes() int
+    }
+
+    class Seat {
+        -string seatNumber
+        -SeatType type
+        +Seat(seatNumber, type)
+        +getSeatNumber() string
+        +getType() SeatType
+        +getPrice() double
+    }
+
+    class Screen {
+        -int screenNumber
+        -vector~Seat*~ seats
+        +Screen(screenNumber)
+        +addSeat(Seat*) void
+        +getSeats() vector~Seat*~
+        +getScreenNumber() int
+    }
+
+    class Cinema {
+        -string name
+        -vector~Screen*~ screens
+        +Cinema(name)
+        +addScreen(Screen*) void
+        +getScreens() vector~Screen*~
+    }
+
+    class Show {
+        -int showId
+        -Movie* movie
+        -Screen* screen
+        -string startTime
+        -vector~ShowSeat*~ showSeats
+        +Show(showId, movie, screen, startTime)
+        +getMovie() Movie*
+        +getScreen() Screen*
+        +getShowSeats() vector~ShowSeat*~
+        +printSeatLayout() void
+    }
+
+    class ShowSeat {
+        -Seat* seat
+        -SeatStatus status
+        +ShowSeat(seat)
+        +isAvailable() bool
+        +book() void
+        +release() void
+        +getSeat() Seat*
+    }
+
+    class Customer {
+        -string name
+        -string phone
+        +Customer(name, phone)
+        +getName() string
+        +getPhone() string
+    }
+
+    class Booking {
+        -int bookingId
+        -Show* show
+        -Customer* customer
+        -vector~ShowSeat*~ bookedSeats
+        -double totalAmount
+        -BookingStatus status
+        -static int nextBookingId$
+        +Booking(show, customer, seats, amount)
+        +confirm() void
+        +cancel() void
+        +getBookingId() int
+        +getTotalAmount() double
+        +getStatus() BookingStatus
+    }
+
+    class Payment {
+        <<abstract>>
+        #double amount
+        +pay(double amount) bool*
+    }
+
+    class UpiPayment {
+        -string upiId
+        +pay(double amount) bool
+    }
+
+    class CardPayment {
+        -string cardNumber
+        +pay(double amount) bool
+    }
+
+    class CashPayment {
+        +pay(double amount) bool
+    }
+
+    class PriceCalculator {
+        +calculateTotal(vector~ShowSeat*~ seats) double$
+    }
+
+    class TicketPrinter {
+        +printTicket(Booking* booking) void$
+    }
+
+    class BookingService {
+        -Cinema* cinema
+        -vector~Booking*~ bookings
+        +BookingService(cinema)
+        +listMovies() void
+        +listShows(Movie*) void
+        +showSeatLayout(Show*) void
+        +bookSeats(Show*, Customer*, seatNumbers) Booking*
+        +makePayment(Booking*, Payment&) bool
+        +cancelBooking(Booking*) void
+    }
+
+    class CinemaMenu {
+        -BookingService* service
+        +run() void
+    }
+
+    Cinema "1" *-- "1..*" Screen : owns
+    Screen "1" *-- "1..*" Seat : owns
+    Show "1" o-- "1" Movie : references
+    Show "1" o-- "1" Screen : uses
+    Show "1" *-- "1..*" ShowSeat : owns
+    ShowSeat "1" --> "1" Seat : refers to
+    Booking "1" --> "1" Customer : made by
+    Booking "1" o-- "1..*" ShowSeat : reserves
+    Booking "1" *-- "1" Payment : records
+    Payment <|-- UpiPayment
+    Payment <|-- CardPayment
+    Payment <|-- CashPayment
+    BookingService "1" o-- "0..*" Booking : manages
+    BookingService "1" --> "1" Cinema : operates on
+    CinemaMenu "1" --> "1" BookingService : uses
+    BookingService ..> PriceCalculator : uses
+    BookingService ..> TicketPrinter : uses

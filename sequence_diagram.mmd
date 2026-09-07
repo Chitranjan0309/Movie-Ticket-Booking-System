@@ -1,0 +1,58 @@
+sequenceDiagram
+    actor C as Customer
+    participant M as CinemaMenu
+    participant BS as BookingService
+    participant SH as Show
+    participant SS as ShowSeat
+    participant PC as PriceCalculator
+    participant BK as Booking
+    participant PM as UpiPayment
+    participant TP as TicketPrinter
+
+    C->>M: choose show, seat, pay by UPI
+    activate M
+    M->>BS: bookSeats(show, customer, seatNumbers)
+    activate BS
+    BS->>SH: getShowSeats()
+    activate SH
+    SH-->>BS: showSeats list
+    deactivate SH
+    BS->>SS: isAvailable()
+    activate SS
+    SS-->>BS: true
+    BS->>SS: book()
+    SS-->>BS: status = BOOKED
+    deactivate SS
+    BS->>PC: calculateTotal(bookedSeats)
+    activate PC
+    PC-->>BS: totalAmount
+    deactivate PC
+    BS->>BK: new Booking(show, customer, seats, totalAmount)
+    activate BK
+    Note right of BK: «create» PENDING booking
+    BK-->>BS: booking
+    deactivate BK
+    BS-->>M: booking (PENDING)
+    deactivate BS
+
+    M->>PM: new UpiPayment(upiId)
+    activate PM
+    Note right of PM: «create»
+    PM-->>M: payment
+    M->>BS: makePayment(booking, payment)
+    activate BS
+    BS->>PM: pay(totalAmount)
+    PM-->>BS: true
+    deactivate PM
+    BS->>BK: confirm()
+    activate BK
+    BK-->>BS: status = CONFIRMED
+    deactivate BK
+    BS->>TP: printTicket(booking)
+    activate TP
+    TP-->>BS: ticket printed
+    deactivate TP
+    BS-->>M: booking confirmed
+    deactivate BS
+    M-->>C: display ticket
+    deactivate M
